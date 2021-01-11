@@ -4,5 +4,83 @@
  * @Autor: cl
  * @Date: 2021-01-04 17:13:50
  * @LastEditors: cl
- * @LastEditTime: 2021-01-04 17:13:51
+ * @LastEditTime: 2021-01-09 13:05:14
 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function Static() {
+        this.name = 'asa'
+        this.push = function () {
+            console.log(this.name);
+        }
+    }
+    new Static().push()
+
+
+    //十进制转二进制
+    function dec2bin(num) {
+        let n = Number(num)
+        if (isNaN(n)) {
+            console.warn('参数不能为空！');
+            return
+        }
+        let arr = [];
+        while (num > 0) {
+            arr.push(num % 2);
+            num = parseInt(num / 2);
+        }
+        return arr.reverse().join('')
+    }
+    console.log(dec2bin(1));
+
+    function game(arr,index){
+        let start_index = 0;//记录每次开始时的下标
+        while (arr.length > 1) {
+            let _arr = [...arr];
+            while (start_index + index - 1> _arr.length - 1) {
+                _arr = [..._arr,...arr];
+            }
+            console.log('_arr-->',[..._arr],'start_index-->',start_index);
+            let target = _arr.splice(start_index + index - 1,1);
+            
+            let _index = 0
+            for (let i = 0; i < arr.length; i++) {
+                if(target == arr[i]){
+                    start_index =_index = i;
+                    break
+                }
+            }
+            arr.splice(_index,1)
+        }
+        console.log(arr);
+        return arr[0]
+    }
+
+    function game2(arr,index){
+        while (arr.length >1) {
+            for (let _index = 0; _index < index; _index++) {
+                const element = arr.shift();
+                if(_index == index-1){
+                    break
+                }
+                arr.push(element)
+            }
+        }
+        console.log(arr);
+        return arr[0]
+    }
+  
+</script>
+
+</html>

@@ -1,0 +1,122 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: cl
+ * @Date: 2021-01-10 11:49:05
+ * @LastEditors: cl
+ * @LastEditTime: 2021-01-11 18:56:00
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //链表结构，都会有一个head，head指向第一个节点，每个节点都有一个next，且指向下一个节点
+    // linkedlist = {
+    //     haed: {
+    //         data: '111',
+    //         next: {
+    //             data: 111,
+    //             next: {
+    //                 data:111,
+    //                 next:null
+    //             }
+    //         }
+    //     }
+    // }
+    function LinkedList() {
+        function Node(data) {
+            this.data = data;
+            this.next = null;
+        }
+        this.head = null
+        this.length = 0
+        LinkedList.prototype.append = function (data) {
+            //创建节点
+            let node = new Node(data)
+            //判断是否为第一个节点
+            if (this.length === 0) {
+                this.head = node
+            } else {
+                //如果不是第一个节点，那么就一个一个向下找，直到next为空时，说明该节点为最后一个节点
+                let current = this.head;
+                while (current.next) {
+                    current = current.next
+                }
+                //把最后节点的next指向最新的节点
+                current.next = node
+            }
+            //添加完成后，长度加1
+            this.length += 1
+        }
+        LinkedList.prototype.insert = function (position, data) {
+            //创建节点
+            let node = new Node(data)
+            //判断position的边界值
+            if (position < 0 || position > this.length) {
+                return false
+            }
+            //判断position是否为0
+            if (position == 0) {
+                node.next = this.head;
+                this.next = node
+            } else {
+                let current = this.head;
+                let provide = null
+                let index = 0;
+                while (index++ < position) {
+                    provide = current
+                    current = current.next
+                }
+                provide.next = node;
+                node.next = current
+            }
+
+            this.length += 1;
+        }
+
+        LinkedList.prototype.get = function (position) {
+            //边界判断
+            if (position < 0 || position >= this.length) return null;
+            let current = this.head;
+            let index = 0;
+            while (index++ < position) {
+                current = current.next;
+            }
+            return current.data
+        }
+
+        LinkedList.indexOf = function(data){
+            let current = this.head;
+            let index = 0;
+            while (index++ <this.length) {
+                if(data === current){
+                    return index
+                }
+                current == current.next 
+            }
+            return -1
+        }
+
+        LinkedList.prototype.update = function(position,newData){
+            //边界判断
+            if(position <0 || position >= this.length) return false;
+            let index = 0,current = this.head;
+            while (index < position) {
+                current = current.next;
+            }
+            current.data = newData;
+            return true
+        }
+    }
+</script>
+
+</html>

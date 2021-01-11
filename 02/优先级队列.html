@@ -1,0 +1,62 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: cl
+ * @Date: 2021-01-09 17:02:48
+ * @LastEditors: cl
+ * @LastEditTime: 2021-01-09 17:23:17
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function PriorityQueue() {
+        this.items = [];
+
+        function QueueElement(element, priority) {
+            this.element = element;
+            this.priority = priority;
+        }
+
+        PriorityQueue.prototype.size = function(){
+            return this.items.length
+        }
+
+        PriorityQueue.prototype.enqueue = function (element, priority) {
+            let queueElement = new QueueElement(element, priority);
+            if (this.size() === 0) {
+                this.items.push(queueElement)
+            } else {
+                for (let index = 0; index < this.size(); index++) {
+                    if (queueElement.priority < this.items[index].priority) {
+                        this.items.splice(index, 0, queueElement)
+                        return
+                    }
+                }
+                this.items.push(queueElement)
+            }
+        }
+
+        PriorityQueue.prototype.toString = function () {
+            return this.items.map(item=> `elemelt->${item.element},priority->${item.priority}`).join(',')
+        }
+    }
+
+    let priorityQueue = new PriorityQueue();
+    priorityQueue.enqueue('cailei',5);
+    priorityQueue.enqueue('cailei',3);
+    priorityQueue.enqueue('cailei',6);
+    priorityQueue.enqueue('cailei',4);
+    console.log(priorityQueue.toString());
+</script>
+
+</html>
