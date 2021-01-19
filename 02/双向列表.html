@@ -1,0 +1,156 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Autor: cl
+ * @Date: 2021-01-12 18:20:54
+ * @LastEditors: cl
+ * @LastEditTime: 2021-01-19 11:37:59
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function DoublyLinkedList() {
+        function Node(data) {
+            this.data = data;
+            this.next = null;
+            this.prev = null;
+        }
+
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+
+        DoublyLinkedList.prototype.append = function (data) {
+            let newNode = new Node(data);
+            if (this.length == 0) {
+                this.head = newNode;
+                this.tail = newNode
+            } else {
+                newNode.prev = this.tail;
+                this.tail.next = newNode;
+                this.tail = newNode
+            }
+            this.length += 1
+        }
+
+        DoublyLinkedList.prototype.insert = function (position, data) {
+            //边界判断
+            if (position < 0 || position > this.length) return false;
+            let newNode = new Node(data)
+            //如果length =0 ，就直接添加
+            if (this.length == 0) {
+                this.head = newNode;
+                this.tail = newNode;
+            }
+            //处理position = 0 和 this.length 的场景
+            if (position == 0) {
+                this.head.prev = newNode;
+                newNode.next = this.head;
+                this.head = newNode
+            } else if (position == this.length) {
+                newNode.prev = this.tail;
+                this.tail.next = newNode;
+                this.tail = newNode
+            } else {
+                let index = 0, current = this.head;
+                while (index++ < position) {
+                    current = current.next
+                }
+
+                //修改指针
+                newNode.next = current;
+                newNode.prev = current.prev;
+                current.prev.next = newNode;
+                current.prev = newNode
+            }
+            this.length +=1
+        }
+
+        DoublyLinkedList.prototype.get = function (position) {
+            if (position < 0 || position >= this.length) return undefined
+            let index = 0;
+            let current = this.head;
+            while (index++ < position) {
+                current = current.next
+            }
+            return current.data
+        }
+
+        DoublyLinkedList.prototype.indexOf = function(data){
+            let index = 0,current = this.head;
+            while (current) {
+                if(current.data == data){
+                    return index
+                }
+                current = current.next;
+                index +=1
+            }
+            return -1
+        }
+
+        DoublyLinkedList.prototype.update = function (position, data) {
+            if (position < 0 || position >= this.length) return false;
+            let index = 0, current = this.head;
+            while (current) {
+                if(index == position){
+                    current.data = data
+                    return true
+                }
+                current = current.next
+                index +=1;
+            }
+            return false
+        }
+
+        DoublyLinkedList.prototype.removeAt = function (position){
+            if(position <0 || position >= this.length) return null
+            //1.判断是否只有一个节点
+            let current = this.head;
+            if(this.length == 1){
+                this.head = null;
+                this.tail = null;
+            }else{
+                if(position == 0){
+                    this.head.next.prev = null;
+                    this.head = this.head.next;
+                } else if (position == this.length - 1) {
+                    current = this.tail;
+                    this.tail.prev.next = null;
+                    this.tail = this.tail.prev;
+                } else {
+                    let index = 0;
+                    while (index++ < position) {
+                        current = current.next
+                    }
+                    current.prev.next = current.next
+                    current.next.prev = current.prev
+                }
+            }
+            this.length -=1
+            return current.data
+        }
+
+        DoublyLinkedList.prototype.remove = function(data){
+            let index = this.indexOf(data);
+            return this.removeAt(index)
+        }
+    }
+
+    let doublyLinkedList = new DoublyLinkedList()
+    doublyLinkedList.append('11')
+    doublyLinkedList.append('22')
+    doublyLinkedList.update(1,'cailei')
+    console.log(doublyLinkedList);
+</script>
+
+</html>
